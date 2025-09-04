@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Примерчики для киндеряток</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- значок вкладки -->
+    <link rel="icon" type="image/png" href="images/mathe.png">
+</head>
+<body>
+    <div class="container">
+        <!-- Левый сайдбар -->
+        <aside class="sidebar left">
+            <label><input type="radio" name="operation" value="add" checked> <span class="op-symbol">+</span></label>
+            <label><input type="radio" name="operation" value="subtract"> <span class="op-symbol">−</span></label>
+            <label><input type="radio" name="operation" value="multiply"> <span class="op-symbol">×</span></label>
+            <label><input type="radio" name="operation" value="divide"> <span class="op-symbol">÷</span></label>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <div id="feedback" class="feedback"></div>
+            <div class="question-box">
+                <span id="question">?</span>
+            </div>
+        </main>
+
+        <!-- Правый сайдбар -->
+        <aside class="sidebar right">
+            <div class="answer-section">
+                <input type="number" id="answer" placeholder="Ответ">
+                <button id="checkBtn">Ответить</button>
+            </div>
+            <ul id="history"></ul>
+        </aside>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
