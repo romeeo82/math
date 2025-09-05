@@ -5,12 +5,16 @@ const historyEl = document.getElementById('history');
 const feedbackEl = document.getElementById('feedback');
 const operationRadios = document.querySelectorAll('input[name="operation"]');
 
+// New element: main title
+const mainTitleEl = document.getElementById('main-title');
+mainTitleEl.textContent = document.title; // text from <title>
+
 let currentOperation = 'add';
 let currentQuestion = {};
-let correctStreak = 0; // счётчик правильных подряд
-const usedUrls = new Set(); // чтобы картинки не повторялись
+let correctStreak = 0; // consecutive correct answers
+const usedUrls = new Set(); // to avoid repeating images
 
-// Счетчики
+// Counters
 let totalCount = 0;
 let correctCount = 0;
 let wrongCount = 0;
@@ -75,11 +79,17 @@ function showFeedback(correct) {
 function addHistory(q, userAnswer) {
     const li = document.createElement('li');
     const isCorrect = userAnswer === q.answer;
-    li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="${isCorrect ? 'correct' : 'wrong'}">${isCorrect ? '✔' : '❌'}</span>`;
+
+    if (isCorrect) {
+        li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="correct">✔</span>`;
+    } else {
+        li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="wrong">❌</span><span class="correct">${q.answer}</span>`;
+    }
+
     historyEl.prepend(li);
 }
 
-// Обновление счетчиков
+// Update counters
 function updateCounters(correct) {
     totalCount++;
     if (correct) correctCount++;
@@ -130,14 +140,14 @@ async function showReward() {
     wrapper.style.textAlign = 'center';
 
     const text = document.createElement('p');
-    text.textContent = "🎉 Молодец!";
+    text.textContent = "🎉 Well done!";
     text.style.fontWeight = 'bold';
     text.style.fontSize = '1.1em';
     text.style.marginBottom = '8px';
 
     const img = document.createElement('img');
     img.src = imageUrl;
-    img.alt = "Награда!";
+    img.alt = "Reward!";
     img.style.maxWidth = '200px';
     img.style.maxHeight = '200px';
     img.style.borderRadius = '8px';
@@ -150,7 +160,7 @@ async function showReward() {
 
     rewardsContainer.prepend(wrapper);
 
-    // ждём загрузки картинки, затем анимация
+    // Wait for the image to load, then animate
     img.onload = () => {
         requestAnimationFrame(() => {
             wrapper.classList.add('show');
@@ -169,7 +179,7 @@ function checkAnswer() {
 
     if (correct) {
         correctStreak++;
-        if (correctStreak % 3 === 0) { // награда каждые 3 правильных
+        if (correctStreak % 3 === 0) { // reward every 3 correct answers
             showReward();
         }
     }
@@ -185,5 +195,5 @@ answerInput.addEventListener('keydown', (e) => {
     }
 });
 
-// Генерация первой задачи
+// Generate first question
 generateQuestion();

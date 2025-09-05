@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Примерчики для киндеряток</title>
+    <title>Math for Kids</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- значок вкладки -->
+    <!-- favicon -->
     <link rel="icon" type="image/png" href="images/mathe.png">
 </head>
 <body>
     <div class="container">
-        <!-- Левый сайдбар -->
+        <!-- Left sidebar -->
         <aside class="sidebar left">
             <label><input type="radio" name="operation" value="add" checked> <span class="op-symbol">+</span></label>
             <label><input type="radio" name="operation" value="subtract"> <span class="op-symbol">−</span></label>
@@ -19,26 +19,27 @@
             <label><input type="radio" name="operation" value="divide"> <span class="op-symbol">÷</span></label>
         </aside>
 
-        <!-- Основной контент -->
+        <!-- Main content -->
         <main class="main-content">
+            <div id="main-title" class="main-title"></div>
             <div id="feedback" class="feedback"></div>
             <div class="question-box">
                 <span id="question">?</span>
             </div>
-            <!-- Контейнер для наград -->
+            <!-- Rewards container -->
             <div id="rewards" class="rewards"></div>
         </main>
 
-        <!-- Правый сайдбар -->
+        <!-- Right sidebar -->
         <aside class="sidebar right">
             <div class="answer-section">
-                <input type="number" id="answer" placeholder="Ответ">
-                <button id="checkBtn">Ответить</button>
-                <!-- Счетчики -->
+                <input type="number" id="answer" placeholder="Answer">
+                <button id="checkBtn">Submit</button>
+                <!-- Counters -->
                 <div id="counters" class="counters">
-                    <p>Всего: <span id="total">0</span></p>
-                    <p>Правильно: <span id="correct">0</span></p>
-                    <p>Неправильно: <span id="wrong">0</span></p>
+                    <p>Total: <span id="total">0</span></p>
+                    <p>Correct: <span id="correct">0</span></p>
+                    <p>Wrong: <span id="wrong">0</span></p>
                 </div>
             </div>
 
