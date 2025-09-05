@@ -29,16 +29,16 @@ body {
     flex-shrink: 0;
 }
 
-.sidebar.left {
-    width: 80px;
-    justify-content: top;
-}
+    .sidebar.left {
+        width: 80px;
+        justify-content: top;
+    }
 
-.sidebar.right {
-    width: 220px;
-    justify-content: flex-start;
-    padding: 10px;
-}
+    .sidebar.right {
+        width: 220px;
+        justify-content: flex-start;
+        padding: 10px;
+    }
 
 /* Символы операций */
 label {
@@ -90,33 +90,31 @@ label {
 .answer-section {
     display: flex;
     flex-direction: column; /* теперь друг над другом */
-    align-items: center;    /* центр по горизонтали */
-    gap: 10px;              /* расстояние между текстбоксом и кнопкой */
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ddd;
+    align-items: center; /* центр по горизонтали */
+    gap: 10px; /* расстояние между текстбоксом и кнопкой */
     padding: 15px 10px;
 }
 
-.answer-section input,
-.answer-section button {
-    height: 45px; /* одинаковая высота */
-    font-size: 1em;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
+    .answer-section input,
+    .answer-section button {
+        height: 45px; /* одинаковая высота */
+        font-size: 1em;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
 
-.answer-section input {
-	padding: 10px 12px; /* вертикальный padding для видимого курсора */
-    -moz-appearance: textfield;
-	width:100%;
-}
+    .answer-section input {
+        padding: 10px 12px; /* вертикальный padding для видимого курсора */
+        -moz-appearance: textfield;
+        width: 100%;
+    }
 
 /* Убираем стрелочки у input type="number" */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .answer-section button {
@@ -125,12 +123,26 @@ input[type=number]::-webkit-outer-spin-button {
     color: white;
     cursor: pointer;
     font-weight: bold;
-	width:100%;
+    width: 100%;
 }
 
-.answer-section button:hover {
-    background: #45a049;
+    .answer-section button:hover {
+        background: #45a049;
+    }
+
+.counters {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 0.95em;
+    width: 100%;
 }
+
+    .counters p {
+        margin: 4px 0;
+    }
 
 /* История */
 #history {
@@ -139,11 +151,11 @@ input[type=number]::-webkit-outer-spin-button {
     overflow-y: auto;
 }
 
-#history li {
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 0.95em;
-}
+    #history li {
+        padding: 5px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 0.95em;
+    }
 
 .correct {
     color: green;
@@ -155,8 +167,39 @@ input[type=number]::-webkit-outer-spin-button {
     font-weight: bold;
 }
 
+.reward-wrapper {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.5s ease;
+}
+
+    .reward-wrapper.show {
+        opacity: 1;
+        transform: scale(1);
+        animation: bounce 0.6s ease;
+    }
+
+@keyframes bounce {
+    0% {
+        transform: scale(0.8);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    70% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
 /* Адаптив под телефоны */
-@media(max-width: 550px){
+@media(max-width: 550px) {
     /* Левая и правая панели */
     .sidebar.left {
         width: 60px;
@@ -165,9 +208,9 @@ input[type=number]::-webkit-outer-spin-button {
     .sidebar.right {
         width: 140px;
     }
-	
-	/* Задание */
-	.question-box {
-    font-size: 1.3em;
-	}
+
+    /* Задание */
+    .question-box {
+        font-size: 1.3em;
+    }
 }

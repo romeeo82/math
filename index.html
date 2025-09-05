@@ -25,6 +25,8 @@
             <div class="question-box">
                 <span id="question">?</span>
             </div>
+            <!-- Контейнер для наград -->
+            <div id="rewards" class="rewards"></div>
         </main>
 
         <!-- Правый сайдбар -->
@@ -32,11 +34,18 @@
             <div class="answer-section">
                 <input type="number" id="answer" placeholder="Ответ">
                 <button id="checkBtn">Ответить</button>
+                <!-- Счетчики -->
+                <div id="counters" class="counters">
+                    <p>Всего: <span id="total">0</span></p>
+                    <p>Правильно: <span id="correct">0</span></p>
+                    <p>Неправильно: <span id="wrong">0</span></p>
+                </div>
             </div>
+
             <ul id="history"></ul>
         </aside>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
