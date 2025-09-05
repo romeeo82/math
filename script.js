@@ -5,14 +5,13 @@ const historyEl = document.getElementById('history');
 const feedbackEl = document.getElementById('feedback');
 const operationRadios = document.querySelectorAll('input[name="operation"]');
 
-// New element: main title
 const mainTitleEl = document.getElementById('main-title');
-mainTitleEl.textContent = document.title; // text from <title>
+mainTitleEl.textContent = document.title;
 
 let currentOperation = 'add';
 let currentQuestion = {};
-let correctStreak = 0; // consecutive correct answers
-const usedUrls = new Set(); // to avoid repeating images
+let correctStreak = 0;
+const usedUrls = new Set();
 
 // Counters
 let totalCount = 0;
@@ -83,13 +82,12 @@ function addHistory(q, userAnswer) {
     if (isCorrect) {
         li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="correct">✔</span>`;
     } else {
-        li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="wrong">❌</span><span class="correct">${q.answer}</span>`;
+        li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="wrong">❌</span> <span class="correct">${q.answer}</span>`;
     }
 
     historyEl.prepend(li);
 }
 
-// Update counters
 function updateCounters(correct) {
     totalCount++;
     if (correct) correctCount++;
@@ -100,12 +98,21 @@ function updateCounters(correct) {
     wrongEl.textContent = wrongCount;
 }
 
-async function fetchRewardImage() {
-    const candidateAPIs = [
+// Fetch images and GIFs
+async function fetchRewardImage(isGif = false) {
+    const gifAPIs = [
+        'https://cataas.com/cat/gif?json=true',
+        'https://api.thecatapi.com/v1/images/search?mime_types=gif'
+    ];
+
+    const normalAPIs = [
         'https://randomfox.ca/floof/',
         'https://random.dog/woof.json',
-        'https://cataas.com/cat?json=true'
+        'https://cataas.com/cat?json=true',
+        'https://api.thecatapi.com/v1/images/search'
     ];
+
+    const candidateAPIs = isGif ? gifAPIs : normalAPIs;
 
     while (true) {
         const api = candidateAPIs[Math.floor(Math.random() * candidateAPIs.length)];
@@ -113,17 +120,12 @@ async function fetchRewardImage() {
         const data = await res.json();
         let url = '';
 
-        if (api.includes('randomfox')) {
-            url = data.image;
-        } else if (api.includes('random.dog')) {
-            url = data.url;
-            if (url.endsWith('.mp4') || url.endsWith('.webm')) continue;
-        } else if (api.includes('cataas')) {
-            if (data.url.startsWith('http')) url = data.url;
-            else url = 'https://cataas.com' + data.url;
-        }
+        if (api.includes('randomfox')) url = data.image;
+        else if (api.includes('random.dog')) url = data.url;
+        else if (api.includes('cataas')) url = data.url.startsWith('http') ? data.url : 'https://cataas.com' + data.url;
+        else if (api.includes('thecatapi')) url = data[0].url;
 
-        if (url && !usedUrls.has(url)) {
+        if (url && !url.match(/\.(mp4|webm|avi|mov)$/i) && !usedUrls.has(url)) {
             usedUrls.add(url);
             return url;
         }
@@ -131,7 +133,9 @@ async function fetchRewardImage() {
 }
 
 async function showReward() {
-    const imageUrl = await fetchRewardImage();
+    // every 9th correct answer, reward = GIF
+    const isGif = correctStreak % 9 === 0;
+    const imageUrl = await fetchRewardImage(isGif);
     const rewardsContainer = document.getElementById('rewards');
 
     const wrapper = document.createElement('div');
@@ -157,10 +161,8 @@ async function showReward() {
 
     wrapper.appendChild(text);
     wrapper.appendChild(img);
-
     rewardsContainer.prepend(wrapper);
 
-    // Wait for the image to load, then animate
     img.onload = () => {
         requestAnimationFrame(() => {
             wrapper.classList.add('show');
@@ -179,21 +181,15 @@ function checkAnswer() {
 
     if (correct) {
         correctStreak++;
-        if (correctStreak % 3 === 0) { // reward every 3 correct answers
-            showReward();
-        }
+        if (correctStreak % 3 === 0) showReward();
     }
 
     generateQuestion();
 }
 
 checkBtn.addEventListener('click', checkAnswer);
-
-answerInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && answerInput.value !== '') {
-        checkAnswer();
-    }
+answerInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && answerInput.value !== '') checkAnswer();
 });
 
-// Generate first question
 generateQuestion();
