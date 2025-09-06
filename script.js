@@ -5,6 +5,41 @@ const historyEl = document.getElementById('history');
 const feedbackEl = document.getElementById('feedback');
 const operationRadios = document.querySelectorAll('input[name="operation"]');
 
+const translations = {
+    en: {
+        title: "Solve for Reward",
+        grade: "Grade",
+        type: "Type",
+        answerPlaceholder: "Answer",
+        submit: "Submit",
+        wellDone: "🎉 Well done!"
+    },
+    ru: {
+        title: "Реши за награду",
+        grade: "Класс",
+        type: "Тип",
+        answerPlaceholder: "Ответ",
+        submit: "Проверить",
+        wellDone: "🎉 Молодец!"
+    },
+    de: {
+        title: "Löse für Belohnung",
+        grade: "Klasse",
+        type: "Typ",
+        answerPlaceholder: "Antwort",
+        submit: "Überprüfen",
+        wellDone: "🎉 Gut gemacht!"
+    },
+    uk: {
+        title: "Розв’яжи за нагороду",
+        grade: "Клас",
+        type: "Тип",
+        answerPlaceholder: "Відповідь",
+        submit: "Перевірити",
+        wellDone: "🎉 Молодець!"
+    }
+};
+
 let currentOperation = 'add';
 let currentQuestion = {};
 let correctStreak = 0;
@@ -205,7 +240,6 @@ function updateCounters(correct) {
     wrongEl.textContent = wrongCount;
 }
 
-// Fetch images and GIFs
 async function fetchRewardImage(isGif = false) {
     const gifAPIs = [
         'https://cataas.com/cat/gif?json=true',
@@ -297,6 +331,42 @@ function checkAnswer() {
 checkBtn.addEventListener('click', checkAnswer);
 answerInput.addEventListener('keydown', e => {
     if (e.key === 'Enter' && answerInput.value !== '') checkAnswer();
+});
+
+function setLanguage(lang) {
+    const t = translations[lang];
+    if (!t) return;
+
+    // Main title
+    document.getElementById("main-title").textContent = t.title;
+
+    // Sidebar titles
+    document.querySelectorAll(".sidebar-title")[0].textContent = t.grade;
+    document.querySelectorAll(".sidebar-title")[1].textContent = t.type;
+
+    // Answer input placeholder
+    document.getElementById("answer").placeholder = t.answerPlaceholder;
+
+    // Submit button
+    document.getElementById("checkBtn").textContent = t.submit;
+
+    // Reward text
+    document.querySelectorAll(".reward-wrapper p").forEach(p => {
+        p.textContent = t.wellDone;
+    });
+
+    // Update active button
+    document.querySelectorAll(".lang-switch button").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("onclick").includes(`'${lang}'`));
+    });
+
+    // Save selected language
+    localStorage.setItem("lang", lang);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    const savedLang = localStorage.getItem("lang") || "en";
+    setLanguage(savedLang);
 });
 
 generateQuestion();
