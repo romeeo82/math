@@ -35,7 +35,7 @@ body {
     }
 
     .sidebar.right {
-        width: 220px;
+        width: 200px;
         padding: 10px;
         align-items: center;
     }
@@ -60,6 +60,37 @@ body {
     margin: 12px 0; /* spacing above/below */
     opacity: 0.7;
 }
+/* Language */
+.lang-switch {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+    .lang-switch button {
+        width: 40px;
+        height: 28px;
+        font-size: 0.8em;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #f9f9f9;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+        .lang-switch button:hover {
+            background: #e6e6e6;
+        }
+
+        .lang-switch button.active {
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+            border-color: #45a049;
+        }
 
 /* Main content */
 .main-content {
@@ -76,28 +107,34 @@ body {
 .main-title {
     font-size: 1.6em;
     font-weight: bold;
-    margin-bottom: 80px;
     text-align: center;
-}
-
-/* Feedback popup animation */
-.feedback {
-    position: absolute;
-    top: 40px;
-    font-size: 3.5em;
-    font-weight: bold;
-    opacity: 0;
-    transition: all 0.8s ease;
+    margin-bottom: 40px;
 }
 
 /* Question box */
 .question-box {
+    position: relative;
     background: #ffffff;
     padding: 30px 50px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     font-size: 2em;
     text-align: center;
+}
+
+/* Feedback */
+.feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    font-weight: bold;
+    color: green;
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 0.4s ease, transform 0.3s ease;
+    pointer-events: none;/
 }
 
 /* Right panel: textbox and button */
@@ -157,6 +194,10 @@ input[type=number]::-webkit-outer-spin-button {
 
     .counters p {
         margin: 4px 0;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-weight: bold;
     }
 
 /* History */
@@ -245,6 +286,10 @@ body {
     /* Question box */
     .question-box {
         font-size: 1.3em;
+    }
+
+    .counters {
+        font-size: 0.8em;
     }
 
     #history li {
