@@ -5,9 +5,6 @@ const historyEl = document.getElementById('history');
 const feedbackEl = document.getElementById('feedback');
 const operationRadios = document.querySelectorAll('input[name="operation"]');
 
-const mainTitleEl = document.getElementById('main-title');
-mainTitleEl.textContent = document.title;
-
 let currentOperation = 'add';
 let currentQuestion = {};
 let correctStreak = 0;
