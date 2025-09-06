@@ -26,40 +26,150 @@ operationRadios.forEach(radio => {
     });
 });
 
+const gradeRadios = document.querySelectorAll('input[name="grade"]');
+const multiplyLabel = document.querySelector('.multiply-label');
+const divideLabel = document.querySelector('.divide-label');
+
+function updateGradeVisibility() {
+    const grade = document.querySelector('input[name="grade"]:checked').value;
+
+    if (grade === "1") {
+        multiplyLabel.classList.add('hidden');
+        divideLabel.classList.add('hidden');
+
+        // if multiply or divide was selected → switch back to addition
+        if (currentOperation === "multiply" || currentOperation === "divide") {
+            document.querySelector('input[value="add"]').checked = true;
+            currentOperation = "add";
+            generateQuestion();
+        }
+    } else {
+        multiplyLabel.classList.remove('hidden');
+        divideLabel.classList.remove('hidden');
+    }
+}
+
+// listen for grade change
+gradeRadios.forEach(radio => {
+    radio.addEventListener('change', updateGradeVisibility);
+});
+
+// run once on page load
+updateGradeVisibility();
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * (max + 1));
 }
 
 function generateQuestion() {
+    const grade = document.querySelector('input[name="grade"]:checked').value;
+
     let a, b, answer;
-    switch (currentOperation) {
-        case 'add':
-            a = getRandomInt(100);
-            b = getRandomInt(100 - a);
+
+    if (grade === "1") {
+        // Grade 1 → only addition & subtraction, numbers up to 20
+        if (currentOperation === "add") {
+            a = getRandomInt(20);
+            b = getRandomInt(20 - a);
             answer = a + b;
-            currentQuestion = { a, b, op: '+', answer };
-            break;
-        case 'subtract':
-            a = getRandomInt(100);
+            currentQuestion = { a, b, op: "+", answer };
+        } else if (currentOperation === "subtract") {
+            a = getRandomInt(20);
             b = getRandomInt(a);
             answer = a - b;
-            currentQuestion = { a, b, op: '−', answer };
-            break;
-        case 'multiply':
-            a = getRandomInt(12);
-            b = getRandomInt(Math.floor(100 / (a || 1)));
-            answer = a * b;
-            currentQuestion = { a, b, op: '×', answer };
-            break;
-        case 'divide':
-            b = getRandomInt(12) + 1;
-            answer = getRandomInt(Math.floor(100 / b));
-            a = answer * b;
-            currentQuestion = { a, b, op: '÷', answer };
-            break;
+            currentQuestion = { a, b, op: "−", answer };
+        } else {
+            // if × or ÷ selected in Grade 1 → fallback to addition
+            a = getRandomInt(20);
+            b = getRandomInt(20 - a);
+            answer = a + b;
+            currentOperation = "add";
+            document.querySelector('input[value="add"]').checked = true;
+            currentQuestion = { a, b, op: "+", answer };
+        }
+
+    } else if (grade === "2") {
+        // Grade 2 → numbers up to 100, all 4 operations
+        switch (currentOperation) {
+            case "add":
+                a = getRandomInt(100);
+                b = getRandomInt(100 - a);
+                answer = a + b;
+                currentQuestion = { a, b, op: "+", answer };
+                break;
+
+            case "subtract":
+                a = getRandomInt(100);
+                b = getRandomInt(a);
+                answer = a - b;
+                currentQuestion = { a, b, op: "−", answer };
+                break;
+
+            case "multiply":
+                a = getRandomInt(10); // multiplier up to 10
+                b = getRandomInt(10);
+                answer = a * b;
+                currentQuestion = { a, b, op: "×", answer };
+                break;
+
+            case "divide":
+                let divisor, quotient;
+                do {
+                    divisor = getRandomInt(9) + 1;   // 1..10 (never 0)
+                    quotient = getRandomInt(10);     // 0..10
+                    a = divisor * quotient;          // dividend (can be 0)
+                } while (a > 100);                   // ensure dividend ≤ 100
+
+                b = divisor;
+                answer = quotient;
+                currentQuestion = { a, b, op: "÷", answer };
+                break;
+        }
+
+    } else if (grade === "3") {
+        // Grade 3 → addition/subtraction up to 1000
+        // but the second number never exceeds 100
+        // multiplication/division same as Grade 2
+        switch (currentOperation) {
+            case "add":
+                a = getRandomInt(1000);
+                b = getRandomInt(100); // second term ≤ 100
+                answer = a + b;
+                currentQuestion = { a, b, op: "+", answer };
+                break;
+
+            case "subtract":
+                a = getRandomInt(1000);
+                b = getRandomInt(Math.min(a, 100)); // second term ≤100, but not greater than a
+                answer = a - b;
+                currentQuestion = { a, b, op: "−", answer };
+                break;
+
+            case "multiply":
+                a = getRandomInt(10);
+                b = getRandomInt(10);
+                answer = a * b;
+                currentQuestion = { a, b, op: "×", answer };
+                break;
+
+            case "divide":
+                let divisor3, quotient3;
+                do {
+                    divisor3 = getRandomInt(9) + 1;  // 1..10
+                    quotient3 = getRandomInt(10);   // 0..10
+                    a = divisor3 * quotient3;       // dividend
+                } while (a > 100);                  // dividend ≤ 100
+
+                b = divisor3;
+                answer = quotient3;
+                currentQuestion = { a, b, op: "÷", answer };
+                break;
+        }
     }
+
+    // Render question
     questionEl.textContent = `${currentQuestion.a} ${currentQuestion.op} ${currentQuestion.b}`;
-    answerInput.value = '';
+    answerInput.value = "";
     answerInput.focus();
 }
 
