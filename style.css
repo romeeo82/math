@@ -2,7 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Comic Sans MS';
 }
 
 body {
@@ -20,38 +20,45 @@ body {
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     padding: 20px 0;
     border: 1px solid #ddd;
     position: sticky;
     top: 0;
     height: 100vh;
     flex-shrink: 0;
+    justify-content: flex-start;
 }
 
     .sidebar.left {
-        width: 80px;
-        justify-content: top;
+        width: 70px;
     }
 
     .sidebar.right {
         width: 220px;
-        justify-content: flex-start;
         padding: 10px;
+        align-items: center;
     }
 
-/* Operation symbols */
-label {
-    display: flex;
-    align-items: center; /* vertical alignment */
-    gap: 8px; /* space between radio button and symbol */
-    cursor: pointer;
+.sidebar-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.radio-label {
+    font-size: 1.3em;
 }
 
 .op-symbol {
-    font-size: 2.8em;
-    margin: 0; /* remove outer margins */
-    line-height: 1; /* prevent shifting */
+    font-size: 1em;
+}
+
+.sidebar-divider {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc; /* light gray line */
+    margin: 12px 0; /* spacing above/below */
+    opacity: 0.7;
 }
 
 /* Main content */
@@ -65,11 +72,22 @@ label {
     position: relative;
 }
 
+/* Main title */
 .main-title {
-    font-size: 1.8em;
+    font-size: 1.6em;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 80px;
     text-align: center;
+}
+
+/* Feedback popup animation */
+.feedback {
+    position: absolute;
+    top: 40px;
+    font-size: 3.5em;
+    font-weight: bold;
+    opacity: 0;
+    transition: all 0.8s ease;
 }
 
 /* Question box */
@@ -79,18 +97,7 @@ label {
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     font-size: 2em;
-    margin-top: 6vh;
     text-align: center;
-}
-
-/* Feedback popup animation */
-.feedback {
-    position: absolute;
-    top: 50px;
-    font-size: 3.5em;
-    font-weight: bold;
-    opacity: 0;
-    transition: all 0.8s ease;
 }
 
 /* Right panel: textbox and button */
@@ -222,13 +229,15 @@ body {
     padding: 10px;
 }
 
+.hidden {
+    display: none !important;
+}
+
 /* Mobile responsive */
 @media(max-width: 550px) {
-    /* Left and right panels */
-    .sidebar.left {
-        width: 60px;
+    .main-title {
+        font-size: 1.2em;
     }
-
     .sidebar.right {
         width: 140px;
     }
@@ -236,5 +245,9 @@ body {
     /* Question box */
     .question-box {
         font-size: 1.3em;
+    }
+
+    #history li {
+        font-size: 0.7em;
     }
 }
