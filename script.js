@@ -76,12 +76,13 @@ function updateGradeVisibility() {
         if (currentOperation === "multiply" || currentOperation === "divide") {
             document.querySelector('input[value="add"]').checked = true;
             currentOperation = "add";
-            generateQuestion();
         }
     } else {
         multiplyLabel.classList.remove('hidden');
         divideLabel.classList.remove('hidden');
     }
+
+    generateQuestion();
 }
 
 // listen for grade change
