@@ -65,7 +65,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-top: 15px;
     align-items: center;
     width: 100%;
 }
@@ -120,6 +119,34 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     font-size: 2em;
     text-align: center;
+}
+
+.reward-wrapper {
+    margin-top: 20px;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+    .reward-wrapper.show {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+.reward-text {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+}
+
+.reward-wrapper img {
+    max-width: 100%;
+    max-height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
 }
 
 /* Right panel: textbox and button */
@@ -307,7 +334,7 @@ body {
     }
 
     .sidebar.right {
-        width: 170px;
+        width: 160px;
     }
 
     .counters {

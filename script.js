@@ -274,31 +274,20 @@ async function fetchRewardImage(isGif = false) {
 }
 
 async function showReward() {
-    // every 9th correct answer, reward = GIF
     const isGif = correctStreak % 9 === 0;
     const imageUrl = await fetchRewardImage(isGif);
     const rewardsContainer = document.getElementById('rewards');
 
     const wrapper = document.createElement('div');
     wrapper.className = 'reward-wrapper';
-    wrapper.style.marginTop = '20px';
-    wrapper.style.textAlign = 'center';
 
     const text = document.createElement('p');
     text.textContent = translations[currentLanguage].wellDone;
-    text.style.fontWeight = 'bold';
-    text.style.fontSize = '1.1em';
-    text.style.marginBottom = '8px';
+    text.className = 'reward-text';
 
     const img = document.createElement('img');
     img.src = imageUrl;
     img.alt = "Reward!";
-    img.style.maxWidth = '200px';
-    img.style.maxHeight = '200px';
-    img.style.borderRadius = '8px';
-    img.style.display = 'block';
-    img.style.marginLeft = 'auto';
-    img.style.marginRight = 'auto';
 
     wrapper.appendChild(text);
     wrapper.appendChild(img);
