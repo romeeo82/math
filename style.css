@@ -122,21 +122,6 @@ body {
     text-align: center;
 }
 
-/* Feedback */
-.feedback {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2em;
-    font-weight: bold;
-    color: green;
-    opacity: 0;
-    z-index: 2;
-    transition: opacity 0.4s ease, transform 0.3s ease;
-    pointer-events: none;/
-}
-
 /* Right panel: textbox and button */
 .answer-section {
     display: flex;
@@ -183,6 +168,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Counters */
 .counters {
+    position: relative;
     margin-bottom: 10px;
     padding: 10px;
     background: #f9f9f9;
@@ -196,9 +182,41 @@ input[type=number]::-webkit-outer-spin-button {
         margin: 4px 0;
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 3px;
         font-weight: bold;
     }
+
+.icon {
+    font-weight: bold;
+    margin-right: 6px;
+    font-size: 1.2em;
+}
+
+    .icon.total {
+        color: blue;
+    }
+
+    .icon.correct {
+        color: green;
+    }
+
+    .icon.wrong {
+        color: red;
+    }
+
+/* Feedback */
+.feedback {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-55%);
+    font-size: 5em;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
 
 /* History */
 #history {
@@ -279,13 +297,14 @@ body {
     .main-title {
         font-size: 1.2em;
     }
-    .sidebar.right {
-        width: 140px;
-    }
 
-    /* Question box */
     .question-box {
         font-size: 1.3em;
+        padding: 20px 10px;
+    }
+
+    .sidebar.right {
+        width: 170px;
     }
 
     .counters {

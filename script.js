@@ -4,7 +4,7 @@ const checkBtn = document.getElementById('checkBtn');
 const historyEl = document.getElementById('history');
 const feedbackEl = document.getElementById('feedback');
 const operationRadios = document.querySelectorAll('input[name="operation"]');
-
+const FEEDBACK_DURATION = 1000;
 const translations = {
     en: {
         title: "Solve for Reward",
@@ -40,6 +40,7 @@ const translations = {
     }
 };
 
+let currentLanguage = 'en';
 let currentOperation = 'add';
 let currentQuestion = {};
 let correctStreak = 0;
@@ -210,12 +211,10 @@ function generateQuestion() {
 }
 
 function showFeedback(correct) {
-    feedbackEl.textContent = correct ? '✔' : '❌';
+    feedbackEl.textContent = correct ? '✓' : '✘';
     feedbackEl.style.opacity = 1;
     feedbackEl.style.color = correct ? 'green' : 'red';
-    setTimeout(() => {
-        feedbackEl.style.opacity = 0;
-    }, 1000);
+    setTimeout(() => { feedbackEl.style.opacity = 0; }, FEEDBACK_DURATION);
 }
 
 function addHistory(q, userAnswer) {
@@ -223,9 +222,9 @@ function addHistory(q, userAnswer) {
     const isCorrect = userAnswer === q.answer;
 
     if (isCorrect) {
-        li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="correct">✔</span>`;
+        li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="correct">✓</span>`;
     } else {
-        li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="wrong">❌</span> <span class="correct">${q.answer}</span>`;
+        li.innerHTML = `${q.a} ${q.op} ${q.b} = ${userAnswer} <span class="wrong">✘</span> <span class="correct">${q.answer}</span>`;
     }
 
     historyEl.prepend(li);
@@ -286,7 +285,7 @@ async function showReward() {
     wrapper.style.textAlign = 'center';
 
     const text = document.createElement('p');
-    text.textContent = "🎉 Well done!";
+    text.textContent = translations[currentLanguage].wellDone;
     text.style.fontWeight = 'bold';
     text.style.fontSize = '1.1em';
     text.style.marginBottom = '8px';
@@ -335,6 +334,7 @@ answerInput.addEventListener('keydown', e => {
 });
 
 function setLanguage(lang) {
+    currentLanguage = lang;
     const t = translations[lang];
     if (!t) return;
 
